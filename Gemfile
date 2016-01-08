@@ -32,9 +32,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'acts-as-taggable-on', '~> 3.5.0'
+gem 'devise', '~> 3.5.3'
+gem 'elasticsearch-rails', '~> 0.1.8'
+gem 'paperclip', '~> 4.3.2'
+gem 'pg', '~> 0.18.4'
+gem 'sidekiq', '~> 4.0.2'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'letter_opener', '~> 1.4.1'
   gem 'rspec-rails', '~> 3.4.0'
 end
 
