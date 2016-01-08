@@ -1,5 +1,5 @@
 class User::SessionsController < Devise::SessionsController
-# before_filter :configure_sign_in_params, only: [:create]
+  before_filter :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
   # def new
@@ -16,10 +16,11 @@ class User::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  # protected
+  protected
 
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_in_params
-  #   devise_parameter_sanitizer.for(:sign_in) << :attribute
-  # end
+  def configure_sign_in_params
+    devise_parameter_sanitizer.for(:sign_in) do |param|
+      u.permit :username, :email, :password, :password_confirmation    
+    end
+  end
 end
