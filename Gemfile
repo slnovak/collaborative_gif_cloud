@@ -35,9 +35,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'acts-as-taggable-on', '~> 3.5.0'
 gem 'devise', '~> 3.5.3'
 gem 'elasticsearch-rails', '~> 0.1.8'
+gem 'less-rails', '~> 2.7.0'
 gem 'paperclip', '~> 4.3.2'
 gem 'pg', '~> 0.18.4'
 gem 'sidekiq', '~> 4.0.2'
+gem 'sprockets', '~> 3.4.0'
+gem 'sprockets-rails', '~> 2.3.3'
+gem 'therubyracer', '~> 0.12.2'
+gem 'twitter-bootstrap-rails', '~> 3.2.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
