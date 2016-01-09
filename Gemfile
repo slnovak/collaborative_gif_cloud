@@ -35,6 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'acts-as-taggable-on', '~> 3.5.0'
 gem 'devise', '~> 3.5.3'
 gem 'elasticsearch-rails', '~> 0.1.8'
+gem 'elasticsearch-model', '~> 0.1.8'
 gem 'less-rails', '~> 2.7.0'
 gem 'paperclip', '~> 4.3.2'
 gem 'pg', '~> 0.18.4'

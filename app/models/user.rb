@@ -4,4 +4,6 @@ class User < ActiveRecord::Base
          :confirmable, :lockable, :timeoutable
 
   validates :username, format: { with: /\A[a-z0-9][-_a-z0-9]{1,19}\z/i }
+
+  has_many :gifs
 end

@@ -1,0 +1,3 @@
+development:
+  host: http://ceph.dev
+  bucket: collaborate_gif_cloud
