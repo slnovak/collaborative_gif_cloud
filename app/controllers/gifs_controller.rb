@@ -1,6 +1,6 @@
 class GifsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_gif, only: [:show, :edit, :update, :destroy]
-  before_action :set_owner, only: [:new]
 
   def index
     @gifs = GIF.all
@@ -57,10 +57,10 @@ class GifsController < ApplicationController
   end
 
   def gif_params
-    params.require(:gif).permit(:description, :metadata, :image)
-  end
-
-  def set_user
-    @gif.user = current_user
+    params.
+      require(:gif).
+      permit(:description, :metadata, :image, :tag_list).
+      merge(user_id: current_user.id).
+      merge(metadata: JSON.parse(params[:gif][:metadata]))
   end
 end

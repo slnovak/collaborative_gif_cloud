@@ -36,6 +36,8 @@ gem 'acts-as-taggable-on', '~> 3.5.0'
 gem 'devise', '~> 3.5.3'
 gem 'elasticsearch-model', '~> 0.1.8'
 gem 'elasticsearch-rails', '~> 0.1.8'
+gem 'fog', '~> 1.37.0'
+gem 'fog-radosgw', '~> 0.0.4'
 gem 'less-rails', '~> 2.7.0'
 gem 'paperclip', '~> 4.3.2'
 gem 'pg', '~> 0.18.4'
@@ -47,16 +49,14 @@ gem 'therubyracer', '~> 0.12.2'
 gem 'twitter-bootstrap-rails', '~> 3.2.2'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'better_errors', '~> 2.1.1'
+  gem 'binding_of_caller', '~> 0.7.2'
   gem 'byebug'
   gem 'letter_opener', '~> 1.4.1'
   gem 'rspec-rails', '~> 3.4.0'
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end

@@ -1,0 +1,6 @@
+development:
+  host: ceph.dev
+  port: 80
+  bucket: collaborate_gif_cloud
+  access_key: IZAJBCXBGW170BVAJ68P
+  secret_key: zXARSZQgxheovKRzAAqFxBi4iPR8J57Sa5yI2rQz
