@@ -1,28 +1,21 @@
 class GifsController < ApplicationController
   before_action :set_gif, only: [:show, :edit, :update, :destroy]
+  before_action :set_owner, only: [:new]
 
-  # GET /gifs
-  # GET /gifs.json
   def index
     @gifs = GIF.all
   end
 
-  # GET /gifs/1
-  # GET /gifs/1.json
   def show
   end
 
-  # GET /gifs/new
   def new
     @gif = GIF.new
   end
 
-  # GET /gifs/1/edit
   def edit
   end
 
-  # POST /gifs
-  # POST /gifs.json
   def create
     @gif = GIF.new(gif_params)
 
@@ -37,8 +30,6 @@ class GifsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /gifs/1
-  # PATCH/PUT /gifs/1.json
   def update
     respond_to do |format|
       if @gif.update(gif_params)
@@ -51,8 +42,6 @@ class GifsController < ApplicationController
     end
   end
 
-  # DELETE /gifs/1
-  # DELETE /gifs/1.json
   def destroy
     @gif.destroy
     respond_to do |format|
@@ -62,13 +51,16 @@ class GifsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_gif
-      @gif = GIF.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def gif_params
-      params[:gif]
-    end
+  def set_gif
+    @gif = GIF.find(params[:id])
+  end
+
+  def gif_params
+    params.require(:gif).permit(:description, :metadata, :image)
+  end
+
+  def set_user
+    @gif.user = current_user
+  end
 end
