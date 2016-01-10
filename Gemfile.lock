@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/slnovak/fog-radosgw.git
+  revision: c4852c690c50208d58d0c2b6206f864ce42e7528
+  branch: fix-whitespace
+  specs:
+    fog-radosgw (0.0.4)
+      fog-core (>= 1.21.0)
+      fog-json
+      fog-xml (>= 0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -165,10 +175,6 @@ GEM
       fog-core
       fog-xml
       nokogiri
-    fog-radosgw (0.0.4)
-      fog-core (>= 1.21.0)
-      fog-json
-      fog-xml (>= 0.0.1)
     fog-riakcs (0.1.0)
       fog-core
       fog-json
@@ -366,7 +372,7 @@ DEPENDENCIES
   elasticsearch-model (~> 0.1.8)
   elasticsearch-rails (~> 0.1.8)
   fog (~> 1.37.0)
-  fog-radosgw (~> 0.0.4)
+  fog-radosgw!
   jbuilder (~> 2.0)
   jquery-rails
   less-rails (~> 2.7.0)

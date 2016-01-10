@@ -7,8 +7,6 @@ class GIF < ActiveRecord::Base
 
   serialize :metadata
 
-  attr_accessor :ceph_access_key, :ceph_secret_key
-
   # See config/initializers/paperclip.rb for the interpolation definition of
   # :elasticsearch_id. This allows us to save data in the object store using
   # the global UUID assigned from Elasticsearch.
@@ -47,13 +45,12 @@ class GIF < ActiveRecord::Base
   protected
 
   def fog_credentials
-    # We will use our Ceph credentials that are assigned to the GIF. This should
-    # be assigned at the controller level so that we can save the file using
-    # the user's credentials.
+    # Use the user's Ceph authorization keys to upload the file to Ceph.
+    access_key, secret_key = user.ceph_authorization_keys
 
     { host: Rails.appication.config_for(:ceph)[:host],
-      aws_access_kid_id: ceph_access_key,
-      aws_secret_access_key: ceph_secret_key,
+      aws_access_kid_id: access_key,
+      aws_secret_access_key: secret_key,
       provider: 'AWS' }
   end
 
