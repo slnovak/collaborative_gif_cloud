@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/slnovak/fog-radosgw.git
-  revision: c4852c690c50208d58d0c2b6206f864ce42e7528
-  branch: fix-whitespace
+  revision: f7613f814b619e05517d5a7a88dbef913a0f10bb
+  branch: manage-user-caps
   specs:
-    fog-radosgw (0.0.4)
+    fog-radosgw (0.0.5)
       fog-core (>= 1.21.0)
       fog-json
       fog-xml (>= 0.0.1)

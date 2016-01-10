@@ -1,6 +1,8 @@
 class GIF < ActiveRecord::Base
   include Elasticsearch::Model
 
+  index_name "gifs-#{Rails.env}"
+
   acts_as_taggable
 
   belongs_to :user
@@ -12,23 +14,23 @@ class GIF < ActiveRecord::Base
   # the global UUID assigned from Elasticsearch.
   has_attached_file :image,
     storage: :fog,
-    fog_credentials: lambda {|gif| gif.fog_credentials },
-    fog_directory: Rails.application.config_for(:ceph)[:bucket],
-    path: ':elasticsearch_id'
+    fog_credentials: lambda {|image| image.instance.fog_credentials },
+    fog_directory: Rails.application.config_for(:ceph)['bucket'],
+    fog_host: Rails.application.config_for(:ceph)['host'],
+    fog_public: true,
+    path: ':elasticsearch_id',
+    ssl_verify_peer: false
 
   validates_attachment_content_type :image, content_type: 'image/gif'
 
   validates :user, presence: true
 
-  around_create do |gif, block|
-    # Before we save, index the document and assign the elastic_search id to
-    # the model. This is so that we use the Elasticsearch uuid when saving the
-    # image to Ceph.
+  # Before we create the GIF, we need to register it with Elasticsearch so that
+  # we can get the Elasticsearch UUID and assign it to the GIF.
+  before_create :register_with_elasticsearch!
 
-    gif.register_with_elasticsearch!
-    block.call
-    gif.unregister_with_elasticsearch! unless gif.persisted?
-  end
+  # If there is a rollback on create, unregister with Elasticsearch.
+  after_rollback :unregister_with_elasticsearch!, on: :create
 
   # If we destroy a gif, remove it from Elasticsearch
   after_commit :unregister_with_elasticsearch!, on: :destroy
@@ -42,17 +44,20 @@ class GIF < ActiveRecord::Base
       merge(application_id: id, user: user.username)
   end
 
-  protected
-
   def fog_credentials
     # Use the user's Ceph authorization keys to upload the file to Ceph.
     access_key, secret_key = user.ceph_authorization_keys
 
-    { host: Rails.appication.config_for(:ceph)[:host],
-      aws_access_kid_id: access_key,
+    { host: Rails.application.config_for(:ceph)['host'],
+      scheme: Rails.application.config_for(:ceph)['scheme'],
+      aws_access_key_id: access_key,
       aws_secret_access_key: secret_key,
+      aws_signature_version: 2,
+      path_style: false,
       provider: 'AWS' }
   end
+
+  protected
 
   def register_with_elasticsearch!
     response = __elasticsearch__.index_document
@@ -60,7 +65,6 @@ class GIF < ActiveRecord::Base
   end
 
   def unregister_with_elasticsearch!
-    __elasticsearch__.delete_document
-    self.elasticsearch_id = nil
+    __elasticsearch__.delete_document(id: elasticsearch_id)
   end
 end

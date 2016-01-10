@@ -5,6 +5,10 @@ class User < ActiveRecord::Base
 
   validates :username, format: { with: /\A[a-z0-9][-_a-z0-9]{1,19}\z/i }
 
+  # TODO: add validation to prevent :username being :admin_username in ceph.yml.
+  # This is a reserved username for the Ceph system that is used by the Rail
+  # app.
+
   has_many :gifs
 
   def full_name
@@ -38,7 +42,7 @@ class User < ActiveRecord::Base
   end
 
   def create_ceph_identity
-    response = ceph_client.create_user(username, full_name, email)
+    response = ceph_client.create_user(username, full_name, email, "usage=read,write")
 
     case response.status
     when Rack::Utils.status_code(:ok)

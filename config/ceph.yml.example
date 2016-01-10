@@ -1,6 +1,9 @@
 development:
   host: ceph.dev
+  scheme: http
   port: 80
-  bucket: collaborate_gif_cloud
+  ssl_verify_peer: false
+  bucket: collaborative_gif_cloud_development
+  admin_username: admin
   access_key: IZAJBCXBGW170BVAJ68P
   secret_key: zXARSZQgxheovKRzAAqFxBi4iPR8J57Sa5yI2rQz

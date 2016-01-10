@@ -21,7 +21,7 @@
       lacus. <small>Aliquam mi erat, aliquam vel luctus eu, pharetra quis elit.
       Nulla euismod ultrices massa, et feugiat ipsum consequat eu.</small></p>
     <% else %>
-      <%= link_to('Sign In', new_user_session_path) %>
+      <%= render "devise/sessions/form" %>
     <% end %>
   </div>
 </div>
