@@ -23,7 +23,7 @@ class GIF < ActiveRecord::Base
     storage: :fog,
     fog_credentials: lambda {|image| image.instance.fog_credentials },
     fog_directory: Rails.application.config_for(:ceph)['bucket'],
-    fog_host: Rails.application.config_for(:ceph)['host'],
+    fog_host: Rails.application.config.x.ceph_bucket_path,
     fog_public: true,
     path: ':elasticsearch_id',
     ssl_verify_peer: false
@@ -31,6 +31,8 @@ class GIF < ActiveRecord::Base
   validates_attachment_content_type :image, content_type: 'image/gif'
 
   validates :user, presence: true
+  validates :image, presence: true
+  validates :title, presence: true
 
   # Before we create the GIF, we need to register it with Elasticsearch so that
   # we can get the Elasticsearch UUID and assign it to the GIF.
@@ -90,7 +92,9 @@ class GIF < ActiveRecord::Base
   end
 
   def unregister_with_elasticsearch!
-    __elasticsearch__.delete_document(id: elasticsearch_id)
+    if elasticsearch_id
+      __elasticsearch__.delete_document(id: elasticsearch_id)
+    end
   end
 
   def update_index!

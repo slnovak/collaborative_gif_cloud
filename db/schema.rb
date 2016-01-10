@@ -18,12 +18,13 @@ ActiveRecord::Schema.define(version: 20160108230607) do
 
   create_table "gifs", force: :cascade do |t|
     t.string   "elasticsearch_id",   limit: 20,                      null: false
+    t.string   "title",              limit: 50,                      null: false
     t.text     "description"
     t.text     "metadata",                      default: "--- {}\n"
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
+    t.string   "image_file_name",                                    null: false
+    t.string   "image_content_type",                                 null: false
+    t.integer  "image_file_size",                                    null: false
+    t.datetime "image_updated_at",                                   null: false
     t.integer  "user_id"
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false

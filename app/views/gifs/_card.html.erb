@@ -1,0 +1,46 @@
+<div class="col-xs-6 col-md-4">
+  <div class="thumbnail panel panel-default bootcards-file">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= gif.title %></h3>
+    </div>
+    <div class="list-group">
+      <div class="list-group-item gif-file-info">
+        <a href="#">
+          <i class="fa fa-file-image-o gif-file-type"></i>
+        </a>
+        <h5 class="list-group-item-heading">
+          <a href="#">
+            <%= gif.elasticsearch_id %>
+          </a>
+        </h5>
+        <p class="list-group-item-text"><strong><%= extension gif %></strong></p>
+        <p class="list-group-item-text"><strong><%= number_to_human_size gif.image.size %></strong></p>
+      </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text"><strong>Added by <%= gif.user.full_name %></strong></br><%= time_ago_in_words gif.created_at %> ago</p>
+      </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text"><%= gif.description %></p>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group">
+          <%= link_to gif_path(gif), class: "btn btn-default btn-xs" do %>
+            <i class="fa fa-eye"></i> View
+          <% end %>
+        </div>
+        <div class="btn-group">
+          <%= link_to gif.image.url(:original, false), class: "btn btn-default btn-xs" do %>
+            <i class="fa fa-arrow-down"></i> Download
+          <% end %>
+        </div>
+        <div class="btn-group">
+          <%= link_to edit_gif_path(gif), class: "btn btn-default btn-xs" do %>
+            <i class="fa fa-edit"></i> Edit
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

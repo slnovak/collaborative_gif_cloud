@@ -1,5 +1,6 @@
 <%= simple_form_for @gif do |form| %>
   <%= form.input :image, as: :file %>
+  <%= form.input :title %>
   <%= form.input :description, as: :text %>
   <%= form.input :metadata, as: :text %>
   <%= form.input :tag_list %>

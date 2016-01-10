@@ -4,3 +4,7 @@ Paperclip.interpolates :elasticsearch_id do |attachment, style|
   # valid is nil.
   attachment.instance.elasticsearch_id || ''
 end
+
+Paperclip.interpolates :bucket do |attachment, style|
+  Rails.application.config_for(:ceph)['bucket']
+end

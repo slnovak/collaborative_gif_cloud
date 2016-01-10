@@ -10,15 +10,32 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require font-awsome
  *= require_tree .
  *= require_self
  */
 .container-fluid {
-  max-width: 900px;
+  max-width: 980px;
 }
 
 .form-signin {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+}
+
+.navbar-brand {
+  background: url(/site-logo.png) center / contain no-repeat;
+  width: 150px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.navbar-brand {
+  padding: 0px; /* firefox bug fix */
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 15px; /* firefox bug fix */
+  width: auto;
 }

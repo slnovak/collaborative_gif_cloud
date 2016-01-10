@@ -1,5 +1,7 @@
 config = Rails.application.config_for(:ceph).with_indifferent_access
 
+Rails.application.config.x.ceph_bucket_path = "#{config[:scheme]}://#{config[:host]}/#{config[:bucket]}"
+
 # Create our Ceph client for talking with the radosgw service.
 Rails.application.config.x.ceph_client = Fog::Radosgw::Provisioning.new(
   host: config[:host],

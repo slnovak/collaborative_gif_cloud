@@ -59,7 +59,7 @@ class GifsController < ApplicationController
   def gif_params
     params.
       require(:gif).
-      permit(:description, :metadata, :image, :tag_list).
+      permit(:description, :metadata, :image, :tag_list, :title).
       merge(user_id: current_user.id).
       merge(metadata: JSON.parse(params[:gif][:metadata]))
   end
