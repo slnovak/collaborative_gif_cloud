@@ -1,8 +1,15 @@
 class GIF < ActiveRecord::Base
   include Elasticsearch::Model
 
+  # Note we are aliasing GIF.elasticsearch_import to GIF.import. This is so that
+  # we can inject default options into the import process to ensure that we
+  # index the proper id column. See the definition of self.import.
+  singleton_class.send(:alias_method, :elasticsearch_import, :import)
+
+  # Elasticsearch index name
   index_name "gifs-#{Rails.env}"
 
+  # Allow users to tag GIFs.
   acts_as_taggable
 
   belongs_to :user
@@ -35,13 +42,31 @@ class GIF < ActiveRecord::Base
   # If we destroy a gif, remove it from Elasticsearch
   after_commit :unregister_with_elasticsearch!, on: :destroy
 
-  def as_indexed_json(options={})
-    # Note that we are not indexing :id since we want to use the UUID from
-    # ElasticSearch to ensure that we index data in a federated environment.
-    # Instead, we assign our ActiveRecord id to "application_id".
+  # After a successful update, update the index.
+  after_commit :update_index!, on: :update
 
+  # When performing an import of records, use elasticsearch_id as the _id field.
+  def self.import(options={})
+    options.merge!(transform: lambda {|model|
+      { index: {
+          _id: model.elasticsearch_id,
+          data: model.__elasticsearch__.as_indexed_json
+        }
+      }
+    })
+
+    elasticsearch_import(options)
+  end
+
+  # Note that we are not indexing :id since we want to use the UUID from
+  # ElasticSearch to ensure that we index data in a federated environment.
+  # Instead, we assign our ActiveRecord id to "application_id".
+  def as_indexed_json(options={})
     as_json(except: [:id, :elasticsearch_id, :user_id]).
-      merge(application_id: id, user: user.username)
+      merge(
+        application_id: id,
+        user: user.username,
+        author: user.full_name)
   end
 
   def fog_credentials
@@ -60,11 +85,15 @@ class GIF < ActiveRecord::Base
   protected
 
   def register_with_elasticsearch!
-    response = __elasticsearch__.index_document
+    response = __elasticsearch__.index_document(id: nil)
     self.elasticsearch_id = response['_id']
   end
 
   def unregister_with_elasticsearch!
     __elasticsearch__.delete_document(id: elasticsearch_id)
+  end
+
+  def update_index!
+    __elasticsearch__.update_document(id: elasticsearch_id)
   end
 end
