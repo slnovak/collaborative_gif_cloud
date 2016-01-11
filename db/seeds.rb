@@ -14,7 +14,7 @@ gifs = [{
     user: User.first
   },{
     title: "Nooppppeeee.",
-    description: "David tennant nods 'nope!'",
+    description: "David Tennant nods 'nope!'",
     tag_list: "giphy, doctor who",
     metadata: { source: "http://i.giphy.com/EVbEdEW3kuu0o.gif" },
     image: open("http://i.giphy.com/EVbEdEW3kuu0o.gif"),
