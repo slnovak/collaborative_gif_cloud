@@ -1,7 +1,16 @@
 <p id="notice"><%= notice %></p>
 
+<div class="text-center">
+  <%= paginate @gifs %>
+</div>
+
 <div class="row">
   <% @gifs.each do |gif| %>
     <%= render partial: 'gifs/card', locals: {gif: gif} %>
   <% end %>
+</div>
+<div class="row">
+
+<div class="text-center">
+  <%= paginate @gifs %>
 </div>

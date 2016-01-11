@@ -1,7 +1,7 @@
-puts "SAD"
 class GIF < ActiveRecord::Base
   include Elasticsearch::Model
 
+  # Default pagination behavior
   paginates_per 6
 
   # Elasticsearch index name
@@ -23,8 +23,9 @@ class GIF < ActiveRecord::Base
     fog_directory: Rails.application.config_for(:ceph)['bucket'],
     fog_host: Rails.application.config.x.ceph_bucket_path,
     fog_public: true,
-    path: ':elasticsearch_id',
-    ssl_verify_peer: false
+    path: ':elasticsearch_id/:style',
+    ssl_verify_peer: false,
+    styles: { thumb: "242x242#" }
 
   validates_attachment_content_type :image, content_type: 'image/gif'
 

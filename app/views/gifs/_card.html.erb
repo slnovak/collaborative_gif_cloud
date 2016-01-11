@@ -1,31 +1,28 @@
 <div class="col-xs-6 col-md-4">
   <div class="thumbnail panel panel-default bootcards-file">
     <div class="panel-heading">
-      <h3 class="panel-title"><%= gif.title %></h3>
+      <h3 class="panel-title"><strong><%= gif.title %></strong></h3>
     </div>
     <div class="list-group">
-      <div class="list-group-item gif-file-info">
-        <a href="#">
-          <i class="fa fa-file-image-o gif-file-type"></i>
-        </a>
-        <h5 class="list-group-item-heading">
-          <a href="#">
-            <%= gif.elasticsearch_id %>
-          </a>
-        </h5>
-        <p class="list-group-item-text"><strong><%= extension gif %></strong></p>
-        <p class="list-group-item-text"><strong><%= number_to_human_size gif.image.size %></strong></p>
+      <div class="list-group-item">
+        <div class="thumbnail gif-thumbnail">
+          <%= image_tag gif.image.url(:thumb) %>
+        </div>
+        <h4 class="list-group-item-heading">
+          <emph><%= gif.description %></emph>
+        </h4>
+        <p class="list-group-item-text"><%= gif.user.full_name %> (<%= time_ago_in_words gif.created_at %> ago)</p>
+        <p class="list-group-item-text"><%= extension gif %>, <%= number_to_human_size gif.image.size %></p>
       </div>
       <div class="list-group-item">
-        <p class="list-group-item-text"><strong>Added by <%= gif.user.full_name %></strong></br><%= time_ago_in_words gif.created_at %> ago</p>
-      </div>
-      <div class="list-group-item">
-        <p class="list-group-item-text"><%= gif.description %></p>
+          ID: <%= gif.elasticsearch_id %>
       </div>
       <div class="list-group-item">
         Tags:
         <% gif.tags.each do |tag| %>
-          <span class="label label-primary"><%= tag.name %></span>
+          <%= link_to search_path(tag: tag.name) do %>
+            <span class="label label-primary"><%= tag.name %></span>
+          <% end %>
         <% end %>
       </div>
     </div>

@@ -1,4 +1,8 @@
 class GifsController < ApplicationController
+  def page
+    params[:page] || 1
+  end
+
   before_action :authenticate_user!
   before_action :set_gif, only: [:show, :edit, :update, :destroy]
 
@@ -65,10 +69,25 @@ class GifsController < ApplicationController
   end
 
   def query
-    params[:q] || '*'
-  end
+    Jbuilder.encode do |j|
+      j.query do
+        j.filtered do
 
-  def page
-    params[:page] || 1
+          j.query do
+            j.query_string do
+              j.query params[:q] || "*"
+              j.fields [:description, :title, :tags]
+            end
+          end
+
+          # Filter on tags
+          if params[:tag]
+            j.filter do
+              j.match tags: params[:tag]
+            end
+          end
+        end
+      end
+    end
   end
 end

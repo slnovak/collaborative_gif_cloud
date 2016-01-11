@@ -1,3 +1,5 @@
+require 'elasticsearch/dsl'
+
 config = Rails.application.config_for(:elasticsearch)
 
 Elasticsearch::Model.client = Elasticsearch::Client.new(
