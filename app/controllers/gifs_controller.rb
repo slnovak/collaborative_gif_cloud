@@ -3,7 +3,7 @@ class GifsController < ApplicationController
   before_action :set_gif, only: [:show, :edit, :update, :destroy]
 
   def index
-    @gifs = GIF.all
+    @gifs = GIF.search(query).page(page).records
   end
 
   def show
@@ -62,5 +62,13 @@ class GifsController < ApplicationController
       permit(:description, :metadata, :image, :tag_list, :title).
       merge(user_id: current_user.id).
       merge(metadata: JSON.parse(params[:gif][:metadata]))
+  end
+
+  def query
+    params[:q] || '*'
+  end
+
+  def page
+    params[:page] || 1
   end
 end

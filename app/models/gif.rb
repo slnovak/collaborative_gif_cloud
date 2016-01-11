@@ -1,10 +1,8 @@
+puts "SAD"
 class GIF < ActiveRecord::Base
   include Elasticsearch::Model
 
-  # Note we are aliasing GIF.elasticsearch_import to GIF.import. This is so that
-  # we can inject default options into the import process to ensure that we
-  # index the proper id column. See the definition of self.import.
-  singleton_class.send(:alias_method, :elasticsearch_import, :import)
+  paginates_per 6
 
   # Elasticsearch index name
   index_name "gifs-#{Rails.env}"
@@ -47,19 +45,6 @@ class GIF < ActiveRecord::Base
   # After a successful update, update the index.
   after_commit :update_index!, on: :update
 
-  # When performing an import of records, use elasticsearch_id as the _id field.
-  def self.import(options={})
-    options.merge!(transform: lambda {|model|
-      { index: {
-          _id: model.elasticsearch_id,
-          data: model.__elasticsearch__.as_indexed_json
-        }
-      }
-    })
-
-    elasticsearch_import(options)
-  end
-
   # Note that we are not indexing :id since we want to use the UUID from
   # ElasticSearch to ensure that we index data in a federated environment.
   # Instead, we assign our ActiveRecord id to "application_id".
@@ -68,7 +53,10 @@ class GIF < ActiveRecord::Base
       merge(
         application_id: id,
         user: user.username,
-        author: user.full_name)
+        author: user.full_name,
+        tags: tags.map(&:name),
+        site: Rails.application.config_for(:federation)['site_short_name'],
+        site_name: Rails.application.config_for(:federation)['site_long_name'])
   end
 
   def fog_credentials

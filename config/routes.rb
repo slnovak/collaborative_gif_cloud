@@ -6,5 +6,8 @@ Rails.application.routes.draw do
     sessions: 'user/sessions'
   }
 
+  get 'search', to: 'gifs#index'
+  get 'browse', to: 'gifs#index'
+
   root 'welcome#index' 
 end

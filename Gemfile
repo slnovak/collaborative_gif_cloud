@@ -11,6 +11,9 @@ gem 'sqlite3'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 
+# Must load before rlasticsearch-model
+gem 'kaminari', '~> 0.16.3'
+
 # App
 gem 'acts-as-taggable-on', '~> 3.5.0'
 gem 'devise', '~> 3.5.3'
