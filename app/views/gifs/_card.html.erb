@@ -22,6 +22,12 @@
       <div class="list-group-item">
         <p class="list-group-item-text"><%= gif.description %></p>
       </div>
+      <div class="list-group-item">
+        Tags:
+        <% gif.tags.each do |tag| %>
+          <span class="label label-primary"><%= tag.name %></span>
+        <% end %>
+      </div>
     </div>
     <div class="panel-footer">
       <div class="btn-toolbar" role="toolbar">
