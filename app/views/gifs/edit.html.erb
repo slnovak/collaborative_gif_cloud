@@ -1,6 +1,11 @@
 <h1>Editing GIF</h1>
 
-<%= render 'form' %>
+<%= simple_form_for @gif do |form| %>
+  <%= form.input :title %>
+  <%= form.input :description, as: :text %>
+  <%= form.input :metadata, as: :text %>
+  <%= form.input :tag_list %>
+  <%= form.button :submit %>
+<% end %>
 
-<%= link_to 'Show', @gif %> |
 <%= link_to 'Back', gifs_path %>

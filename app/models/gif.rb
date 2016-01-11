@@ -52,7 +52,6 @@ class GIF < ActiveRecord::Base
   def as_indexed_json(options={})
     as_json(except: [:id, :elasticsearch_id, :user_id]).
       merge(
-        application_id: id,
         user: user.username,
         author: user.full_name,
         tags: tags.map(&:name),

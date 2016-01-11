@@ -1,8 +1,4 @@
 class GifsController < ApplicationController
-  def page
-    params[:page] || 1
-  end
-
   before_action :authenticate_user!
   before_action :set_gif, only: [:show, :edit, :update, :destroy]
 
@@ -36,7 +32,7 @@ class GifsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @gif.update(gif_params)
+      if @gif.update(gif_edit_params)
         format.html { redirect_to @gif, notice: 'GIF was successfully updated.' }
         format.json { render :show, status: :ok, location: @gif }
       else
@@ -68,11 +64,17 @@ class GifsController < ApplicationController
       merge(metadata: JSON.parse(params[:gif][:metadata]))
   end
 
+  def gif_edit_params
+    params.
+      require(:gif).
+      permit(:description, :metadata, :tag_list, :title).
+      merge(metadata: JSON.parse(params[:gif][:metadata]))
+  end
+
   def query
     Jbuilder.encode do |j|
       j.query do
         j.filtered do
-
           j.query do
             j.query_string do
               j.query params[:q] || "*"
@@ -89,5 +91,9 @@ class GifsController < ApplicationController
         end
       end
     end
+  end
+
+  def page
+    params[:page] || 1
   end
 end

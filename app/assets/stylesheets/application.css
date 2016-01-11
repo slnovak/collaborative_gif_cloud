@@ -39,3 +39,8 @@
   padding: 15px; /* firefox bug fix */
   width: auto;
 }
+
+#sign_up_form {
+  width: 350px;
+  margin: 0 auto;
+}

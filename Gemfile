@@ -35,7 +35,7 @@ gem 'twitter-bootstrap-rails', '~> 3.2.2'
 # Assets
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootcards', '1.1.2'
-  gem 'rails-assets-font-awsome', '4.5.0'
+  gem 'rails-assets-font-awesome', '4.5.0'
 end
 
 group :development, :test do
